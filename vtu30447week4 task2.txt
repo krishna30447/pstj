@@ -1,0 +1,22 @@
+T = int(input())
+
+for _ in range(T):
+    s = input().strip()
+    n = len(s)
+
+    first = s[:n // 2]
+    second = s[(n + 1) // 2:]
+
+    if sorted(first) == sorted(second):
+        print("YES")
+    else:
+        print("NO")
+
+
+Output
+YES
+NO
+YES
+YES
+NO
+NO
