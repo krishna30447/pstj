@@ -1,0 +1,79 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static List<Integer> maxSubarray(List<Integer> arr) {
+
+        // Maximum subarray
+        int current = arr.get(0);
+        int maxSubarray = arr.get(0);
+
+        // Maximum subsequence
+        int maxSubsequence = 0;
+        int largest = arr.get(0);
+
+        for (int i = 0; i < arr.size(); i++) {
+            int x = arr.get(i);
+
+            // Kadane's algorithm
+            if (i > 0) {
+                current = Math.max(x, current + x);
+                maxSubarray = Math.max(maxSubarray, current);
+            }
+
+            // Add all positive numbers
+            if (x > 0) {
+                maxSubsequence += x;
+            }
+
+            // Keep largest element for all-negative case
+            if (x > largest) {
+                largest = x;
+            }
+        }
+
+        // If every number is negative
+        if (maxSubsequence == 0) {
+            maxSubsequence = largest;
+        }
+
+        return Arrays.asList(maxSubarray, maxSubsequence);
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        Scanner sc = new Scanner(System.in);
+
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+
+            int n = sc.nextInt();
+
+            List<Integer> arr = new ArrayList<>();
+
+            for (int i = 0; i < n; i++) {
+                arr.add(sc.nextInt());
+            }
+
+            List<Integer> result = maxSubarray(arr);
+
+            System.out.println(result.get(0) + " " + result.get(1));
+        }
+
+        sc.close();
+    }
+}
+
+
+
+Input (stdin)
+2
+4
+1 2 3 4
+6
+2 -1 2 3 4 -5
+Output (stdout)
+10 10
+10 11
