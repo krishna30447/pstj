@@ -1,0 +1,72 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class UndergroundSystem {
+
+   
+    private Map<Integer, CheckIn> checkIns;
+
+    
+    private Map<String, RouteData> routes;
+
+    public UndergroundSystem() {
+        checkIns = new HashMap<>();
+        routes = new HashMap<>();
+    }
+
+    public void checkIn(int id, String stationName, int t) {
+        checkIns.put(id, new CheckIn(stationName, t));
+    }
+
+    public void checkOut(int id, String stationName, int t) {
+        CheckIn checkIn = checkIns.get(id);
+
+        String startStation = checkIn.stationName;
+        int travelTime = t - checkIn.time;
+
+        String routeKey = startStation + "->" + stationName;
+
+        RouteData data = routes.getOrDefault(routeKey, new RouteData());
+
+        data.totalTime += travelTime;
+        data.tripCount++;
+
+        routes.put(routeKey, data);
+
+        
+        checkIns.remove(id);
+    }
+
+    public double getAverageTime(String startStation, String endStation) {
+        String routeKey = startStation + "->" + endStation;
+
+        RouteData data = routes.get(routeKey);
+
+        return (double) data.totalTime / data.tripCount;
+    }
+
+    
+    private static class CheckIn {
+        String stationName;
+        int time;
+
+        CheckIn(String stationName, int time) {
+            this.stationName = stationName;
+            this.time = time;
+        }
+    }
+
+    
+    private static class RouteData {
+        int totalTime = 0;
+        int tripCount = 0;
+    }
+}
+
+
+
+Input
+["UndergroundSystem","checkIn","checkIn","checkIn","checkOut","checkOut","checkOut","getAverageTime","getAverageTime","checkIn","getAverageTime","checkOut","getAverageTime"]
+[[],[45,"Leyton",3],[32,"Paradise",8],[27,"Leyton",10],[45,"Waterloo",15],[27,"Waterloo",20],[32,"Cambridge",22],["Paradise","Cambridge"],["Leyton","Waterloo"],[10,"Leyton",24],["Leyton","Waterloo"],[10,"Waterloo",38],["Leyton","Waterloo"]]
+Output
+[null,null,null,null,null,null,null,14.00000,11.00000,null,11.00000,null,12.00000]
