@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+class Singleton {
+
+
+public String str;
+
+private static Singleton single_instance = null;
+
+private Singleton() {
+}
+
+public static Singleton getSingleInstance() {
+    if (single_instance == null) {
+        single_instance = new Singleton();
+    }
+    return single_instance;
+}
+
+
+}
+
+public class Solution {
+
+public static void main(String[] args) {
+
+    Scanner sc = new Scanner(System.in);
+
+    String input = sc.nextLine();
+
+    Singleton singleton = Singleton.getSingleInstance();
+
+    singleton.str = input;
+
+    System.out.println("Hello I am a singleton! Let me say " + singleton.str + " to you");
+
+    sc.close();
+}
+
+
+}
+
+
+
+
+Input (stdin)
+hello world
+Your Output (stdout)
+Hello I am a singleton! Let me say hello world to you
